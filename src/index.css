@@ -6,5 +6,9 @@
 
 html,
 body {
-  @apply bg-purple grid h-screen w-full min-w-[300px] place-content-center font-sans;
+  @apply h-screen w-full min-w-[300px] place-content-center bg-purple font-sans;
+}
+
+#root {
+  @apply grid h-full min-h-[667px] place-items-center;
 }
