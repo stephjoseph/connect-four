@@ -10,5 +10,5 @@ body {
 }
 
 #root {
-  @apply grid h-full min-h-[667px] place-items-center;
+  @apply grid h-full min-h-[667px] place-items-center px-5;
 }
