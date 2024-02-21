@@ -4,7 +4,7 @@ import playerVsPlayer from "/images/player-vs-player.svg";
 
 const Home = () => {
   return (
-    <main className="flex w-full flex-col items-center gap-20 px-5">
+    <main className="flex w-full max-w-[335px] flex-col items-center gap-20">
       <Link to="/">
         <img src={logo} alt="connect four logo" />
       </Link>
