@@ -6,7 +6,7 @@
 
 html,
 body {
-  @apply h-screen w-full min-w-[300px] place-content-center bg-purple font-sans;
+  @apply h-screen w-full min-w-[375px] place-content-center bg-purple font-sans;
 }
 
 #root {
