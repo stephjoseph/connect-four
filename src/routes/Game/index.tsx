@@ -29,7 +29,6 @@ const Game: React.FC = () => {
     yellow: 0,
   });
   const [timer, setTimer] = useState(30); // Initial timer value
-  const [gameStarted, setGameStarted] = useState(false);
 
   useEffect(() => {
     // Start the timer when the component mounts
@@ -57,34 +56,6 @@ const Game: React.FC = () => {
     };
   }, [currentPlayer, winner]); // Empty dependency array ensures the effect runs only once on mount
 
-  useEffect(() => {
-    // Start the timer when the game starts
-    if (gameStarted) {
-      const timerId = setInterval(() => {
-        setTimer((prevTimer) => {
-          if (prevTimer === 0) {
-            clearInterval(timerId);
-            // Forfeit turn if timer runs out
-            setCurrentPlayer((prevPlayer) =>
-              prevPlayer === "red" ? "yellow" : "red",
-            );
-            setTimer(30); // Reset timer
-          }
-          return prevTimer > 0 ? prevTimer - 1 : prevTimer;
-        });
-      }, 1000);
-
-      if (winner) {
-        clearInterval(timerId);
-      }
-
-      // Clean up the timer when the component unmounts or when a player wins
-      return () => {
-        clearInterval(timerId);
-      };
-    }
-  }, [winner, gameStarted]);
-
   const dropPiece = (col: number) => {
     if (winner) return;
 
@@ -96,9 +67,7 @@ const Game: React.FC = () => {
         checkWinner(row, col);
         setCurrentPlayer(currentPlayer === "red" ? "yellow" : "red");
         setTimer(30); // Reset timer
-        if (!gameStarted) {
-          setGameStarted(true);
-        }
+
         return;
       }
     }
@@ -197,13 +166,22 @@ const Game: React.FC = () => {
       ),
     );
 
-    if (winner && winner !== "draw") {
-      setStartingPlayer(currentPlayer === "red" ? "yellow" : "red");
-    } else if (winner === "draw") {
-      setStartingPlayer(currentPlayer === "red" ? "yellow" : "red");
+    // Determine the starting player for the next game
+    let nextStartingPlayer: Player;
+    if (winner) {
+      // If there's a winner or draw, the starter of the previous game goes second
+      nextStartingPlayer = startingPlayer === "red" ? "yellow" : "red";
+    } else {
+      // If there's no winner, the starting player remains the same
+      nextStartingPlayer = startingPlayer;
     }
 
-    setCurrentPlayer(startingPlayer);
+    // Set the starting player for the next game
+    setStartingPlayer(nextStartingPlayer);
+
+    // Set the current player to be the starting player of the next game
+    setCurrentPlayer(nextStartingPlayer);
+
     setWinner(null);
     setTimer(30);
   };
