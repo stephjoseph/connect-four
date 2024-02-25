@@ -170,13 +170,17 @@ const Game = () => {
             </div>
           </div>
           {/* turn indicator */}
-          <div className="relative z-[60] -mt-4 flex h-[9.375rem] w-[11.938rem] flex-col items-center gap-[0.125rem] px-8 pb-4 pt-10">
-            <span className="relative">Player 1's turn</span>
-            <span>15s</span>
+          <div className="relative z-[60] -mt-4 flex h-[9.375rem] w-[11.938rem] flex-col items-center gap-[0.125rem] px-7 pb-4 pt-10">
+            <span className="z-10 text-base font-bold uppercase leading-5 tracking-normal text-white">
+              Player 1's turn
+            </span>
+            <span className="z-10 text-[3.5rem] font-bold leading-[4.5rem] tracking-normal text-white">
+              15s
+            </span>
             <img
               className="absolute left-0 top-0"
               src={turnBackgroundRed}
-              alt="tur"
+              alt=""
             />
           </div>
         </div>
