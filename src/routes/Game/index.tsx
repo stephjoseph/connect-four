@@ -51,7 +51,6 @@ const Game: React.FC = () => {
     }, 1000);
 
     if (winner) {
-      console.log(winningCells);
       clearInterval(timerId);
     }
 
