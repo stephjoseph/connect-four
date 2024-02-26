@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import MenuModal from "../../components/MenuModal";
 import logo from "/images/logo.svg";
 import playerOne from "/images/player-one.svg";
 import playerTwo from "/images/player-two.svg";
@@ -33,9 +34,10 @@ const Game: React.FC = () => {
   const [winningCells, setWinningCells] = useState<
     { row: number; col: number }[]
   >([]);
+  const [showMenuModal, setShowMenuModal] = useState<boolean>(false);
 
   useEffect(() => {
-    // Start the timer when the component mounts
+    // Start the timer when the component mounts and modal is closed
     const timerId = setInterval(() => {
       setTimer((prevTimer) => {
         if (prevTimer === 0) {
@@ -50,7 +52,8 @@ const Game: React.FC = () => {
       });
     }, 1000);
 
-    if (winner) {
+    // Pause timer when modal is open
+    if (showMenuModal) {
       clearInterval(timerId);
     }
 
@@ -58,7 +61,7 @@ const Game: React.FC = () => {
     return () => {
       clearInterval(timerId);
     };
-  }, [currentPlayer, winner]); // Empty dependency array ensures the effect runs only once on mount
+  }, [currentPlayer, winner, showMenuModal]); // Add showMenuModal to the dependency array
 
   const dropPiece = (col: number) => {
     if (winner) return;
@@ -201,11 +204,25 @@ const Game: React.FC = () => {
       nextStartingPlayer = startingPlayer;
     }
 
+    if (showMenuModal) {
+      setShowMenuModal(false);
+    }
+
     setStartingPlayer(nextStartingPlayer);
     setCurrentPlayer(nextStartingPlayer);
     setWinningCells([]);
     setWinner(null);
     setTimer(30);
+  };
+
+  const toggleMenu = () => {
+    setShowMenuModal((prevShowMenuModal) => !prevShowMenuModal);
+
+    if (!showMenuModal) {
+      document.body.classList.add("overflow-y-hidden");
+    } else {
+      document.body.classList.remove("overflow-y-hidden");
+    }
   };
 
   return (
@@ -214,6 +231,7 @@ const Game: React.FC = () => {
         <button
           type="button"
           className="flex h-10 w-[6.75rem] items-center justify-center rounded-[20px] bg-dark-purple text-base font-bold uppercase leading-5 tracking-normal text-white transition-colors duration-75 hover:bg-red active:bg-red"
+          onClick={toggleMenu}
         >
           Menu
         </button>
@@ -368,6 +386,13 @@ const Game: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Menu Modal */}
+      <MenuModal
+        showMenuModal={showMenuModal}
+        toggleMenu={toggleMenu}
+        resetGame={resetGame}
+      />
     </main>
   );
 };
