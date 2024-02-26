@@ -9,6 +9,7 @@ import counterRedSmall from "/images/counter-red-small.svg";
 import counterYellowSmall from "/images/counter-yellow-small.svg";
 import turnBackgroundRed from "/images/turn-background-red.svg";
 import turnBackgroundYellow from "/images/turn-background-yellow.svg";
+import iconCircle from "/images/icon-circle.svg";
 
 const ROWS = 6;
 const COLS = 7;
@@ -29,6 +30,9 @@ const Game: React.FC = () => {
     yellow: 0,
   });
   const [timer, setTimer] = useState(30); // Initial timer value
+  const [winningCells, setWinningCells] = useState<
+    { row: number; col: number }[]
+  >([]);
 
   useEffect(() => {
     // Start the timer when the component mounts
@@ -85,6 +89,12 @@ const Game: React.FC = () => {
         board[row][c + 3] === player
       ) {
         setWinner(player);
+        setWinningCells([
+          { row, col: c },
+          { row, col: c + 1 },
+          { row, col: c + 2 },
+          { row, col: c + 3 },
+        ]);
         setScores((prevScores) => ({
           ...prevScores,
           [player === "red" ? "red" : "yellow"]:
@@ -103,6 +113,12 @@ const Game: React.FC = () => {
         board[r + 3][col] === player
       ) {
         setWinner(player);
+        setWinningCells([
+          { row: r, col },
+          { row: r + 1, col },
+          { row: r + 2, col },
+          { row: r + 3, col },
+        ]);
         setScores((prevScores) => ({
           ...prevScores,
           [player === "red" ? "red" : "yellow"]:
@@ -122,6 +138,12 @@ const Game: React.FC = () => {
           board[r + 3][c + 3] === player
         ) {
           setWinner(player);
+          setWinningCells([
+            { row: r, col: c },
+            { row: r + 1, col: c + 1 },
+            { row: r + 2, col: c + 2 },
+            { row: r + 3, col: c + 3 },
+          ]);
           setScores((prevScores) => ({
             ...prevScores,
             [player === "red" ? "red" : "yellow"]:
@@ -142,6 +164,12 @@ const Game: React.FC = () => {
           board[r + 3][c - 3] === player
         ) {
           setWinner(player);
+          setWinningCells([
+            { row: r, col: c },
+            { row: r + 1, col: c - 1 },
+            { row: r + 2, col: c - 2 },
+            { row: r + 3, col: c - 3 },
+          ]);
           setScores((prevScores) => ({
             ...prevScores,
             [player === "red" ? "red" : "yellow"]:
@@ -166,22 +194,16 @@ const Game: React.FC = () => {
       ),
     );
 
-    // Determine the starting player for the next game
     let nextStartingPlayer: Player;
     if (winner) {
-      // If there's a winner or draw, the starter of the previous game goes second
       nextStartingPlayer = startingPlayer === "red" ? "yellow" : "red";
     } else {
-      // If there's no winner, the starting player remains the same
       nextStartingPlayer = startingPlayer;
     }
 
-    // Set the starting player for the next game
     setStartingPlayer(nextStartingPlayer);
-
-    // Set the current player to be the starting player of the next game
     setCurrentPlayer(nextStartingPlayer);
-
+    setWinningCells([]);
     setWinner(null);
     setTimer(30);
   };
@@ -253,30 +275,49 @@ const Game: React.FC = () => {
             </div>
             <div className="absolute left-0 top-0 z-20 grid h-full w-full grid-cols-7 gap-[0.375rem] px-2 pb-7 pt-2">
               {board.map((row, rowIndex) =>
-                row.map((cell, colIndex) => (
-                  <div
-                    key={`${rowIndex}-${colIndex}`}
-                    className="flex w-full cursor-pointer flex-col justify-between"
-                    onClick={() => dropPiece(colIndex)}
-                  >
-                    <div className="relative h-10 w-10">
-                      {cell === "red" && (
+                row.map((cell, colIndex) => {
+                  const isWinningCell = winningCells.some(
+                    (winningCell) =>
+                      winningCell.row === rowIndex &&
+                      winningCell.col === colIndex,
+                  );
+
+                  return (
+                    <div
+                      key={`${rowIndex}-${colIndex}`}
+                      className={`flex w-full cursor-pointer flex-col justify-between ${
+                        isWinningCell ? "winning-cell" : ""
+                      }`}
+                      onClick={() => dropPiece(colIndex)}
+                    >
+                      <div className="relative flex h-10 w-10 items-center justify-center">
+                        {cell === "red" && (
+                          <img
+                            className="fall absolute left-0 top-0 w-full"
+                            src={counterRedSmall}
+                            alt="counter red"
+                          />
+                        )}
+                        {cell === "yellow" && (
+                          <img
+                            className="fall absolute left-0 top-0 w-full"
+                            src={counterYellowSmall}
+                            alt="counter yellow"
+                          />
+                        )}
                         <img
-                          className="fall absolute left-0 top-0 w-full"
-                          src={counterRedSmall}
-                          alt="counter red"
+                          className={`pointer-events-none z-10 transform transition delay-500 duration-500 ${
+                            isWinningCell
+                              ? "translate-y-0 opacity-100"
+                              : "-translate-y-[100px] opacity-0"
+                          }`}
+                          src={iconCircle}
+                          alt="circle icon"
                         />
-                      )}
-                      {cell === "yellow" && (
-                        <img
-                          className="fall absolute left-0 top-0 w-full"
-                          src={counterYellowSmall}
-                          alt="counter yellow"
-                        />
-                      )}
+                      </div>
                     </div>
-                  </div>
-                )),
+                  );
+                }),
               )}
             </div>
             <div className="pointer-events-none absolute left-0 top-0 z-30 h-[19.375rem] w-full">
