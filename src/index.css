@@ -6,7 +6,7 @@
 
 html,
 body {
-  @apply h-screen w-full min-w-[375px] place-content-center bg-purple font-sans;
+  @apply h-screen w-full min-w-[375px] place-content-center font-sans;
 }
 
 #root {
@@ -25,5 +25,16 @@ body {
   }
   to {
     transform: translateY(0);
+  }
+}
+
+@media (min-width: 768px) {
+  @keyframes fall-animation {
+    from {
+      transform: translateY(-400px);
+    }
+    to {
+      transform: translateY(0);
+    }
   }
 }
