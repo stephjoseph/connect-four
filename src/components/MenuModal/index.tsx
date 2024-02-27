@@ -19,7 +19,7 @@ const MenuModal = ({
           : "pointer-events-none opacity-0"
       }`}
     >
-      <div className="flex w-full max-w-[335px] flex-col items-center gap-[1.875rem] rounded-[40px] border-[3px] border-solid border-black bg-purple px-5 py-[1.875rem] shadow-[0_10px_0px_0px_rgba(0,0,0,1)]">
+      <div className="flex w-full max-w-[335px] flex-col items-center gap-[1.875rem] rounded-[40px] border-[3px] border-solid border-black bg-purple px-5 py-[1.875rem] shadow-[0_10px_0px_0px_rgba(0,0,0,1)] md:max-w-[480px] md:gap-11 md:px-10 md:py-[3.125rem]">
         <span className="text-[3.5rem] font-bold uppercase leading-[4.5rem] tracking-normal text-white">
           Pause
         </span>
