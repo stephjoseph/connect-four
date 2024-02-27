@@ -184,7 +184,7 @@ const Game: React.FC = () => {
     }
 
     if (showMenuModal) {
-      setShowMenuModal(false);
+      toggleMenu();
     }
 
     setStartingPlayer(nextStartingPlayer);

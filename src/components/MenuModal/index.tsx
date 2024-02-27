@@ -39,6 +39,7 @@ const MenuModal = ({
           <Link
             className="flex w-full items-center justify-center rounded-[20px] border-[3px] border-solid border-black bg-red p-5 text-2xl font-bold uppercase leading-[1.875rem] tracking-normal text-white shadow-[0_10px_0px_0px_rgba(0,0,0,1)] transition duration-75 hover:border-dark-purple hover:shadow-[0_10px_0px_0px_rgba(92,45,213,1)] active:translate-y-[5px] active:border-dark-purple active:shadow-[0_5px_0px_0px_rgba(92,45,213,1)]"
             to="/"
+            onClick={toggleMenu}
           >
             <span>Quit Game</span>
           </Link>
