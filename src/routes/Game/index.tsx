@@ -405,10 +405,14 @@ const Game: React.FC = () => {
             </div>
           ) : (
             <div className="relative z-[60] -mt-4 mb-[0.625rem] flex h-[9.375rem] w-[11.938rem] flex-col items-center gap-[0.125rem] px-7 pb-4 pt-10 md:-mt-10">
-              <span className="z-10 text-base font-bold uppercase leading-5 tracking-normal text-white">
+              <span
+                className={`z-10 text-base font-bold uppercase leading-5 tracking-normal ${currentPlayer === "red" ? "text-white" : "text-black"}`}
+              >
                 {currentPlayer === "red" ? "Player 1" : "Player 2"}'s turn
               </span>
-              <span className="z-10 text-[3.5rem] font-bold leading-[4.5rem] tracking-normal text-white">
+              <span
+                className={`z-10 text-[3.5rem] font-bold leading-[4.5rem] tracking-normal ${currentPlayer === "red" ? "text-white" : "text-black"}`}
+              >
                 {timer}s
               </span>
               <img
