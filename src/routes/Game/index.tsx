@@ -226,7 +226,7 @@ const Game: React.FC = () => {
   };
 
   return (
-    <main className="flex w-full max-w-[335px] flex-col gap-[3.125rem] pb-24 pt-[3.125rem]">
+    <main className="relative flex w-full max-w-[335px] flex-col gap-[3.125rem] pb-24 pt-[3.125rem]">
       <div className="gap flex w-full items-center justify-between">
         <button
           type="button"
@@ -384,6 +384,10 @@ const Game: React.FC = () => {
               />
             </div>
           )}
+          {/* background pattern */}
+          <div
+            className={`h- absolute -left-5 top-[36rem] min-h-[236px] w-[calc(100%+40px)] rounded-t-[60px] transition-colors delay-500 duration-500 ${winner === "red" ? "bg-red" : winner === "yellow" ? "bg-yellow" : "bg-dark-purple"}`}
+          ></div>
         </div>
       </div>
 
