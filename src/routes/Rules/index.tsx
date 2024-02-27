@@ -3,7 +3,7 @@ import iconCheck from "/images/icon-check.svg";
 
 const Rules = () => {
   return (
-    <main className="relative flex w-full max-w-[335px] flex-col gap-[1.875rem] rounded-[40px] border-[3px] border-black bg-white px-5 pb-[3.75rem] pt-[1.875rem] shadow-[0_10px_0px_0px_rgba(0,0,0,1)]">
+    <main className="relative flex w-full max-w-[335px] flex-col gap-[1.875rem] rounded-[40px] border-[3px] border-black bg-white px-5 pb-[3.75rem] pt-[1.875rem] shadow-[0_10px_0px_0px_rgba(0,0,0,1)] md:max-w-[480px] md:px-8 md:pb-14">
       <h1 className="text-center text-[3.5rem] font-bold uppercase leading-[4.5rem] tracking-normal text-black">
         Rules
       </h1>
