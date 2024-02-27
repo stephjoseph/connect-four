@@ -27,3 +27,14 @@ body {
     transform: translateY(0);
   }
 }
+
+@media (min-width: 768px) {
+  @keyframes fall-animation {
+    from {
+      transform: translateY(-400px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+}
