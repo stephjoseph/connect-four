@@ -16,6 +16,8 @@ import turnBackgroundRed from "/images/turn-background-red.svg";
 import turnBackgroundYellow from "/images/turn-background-yellow.svg";
 import iconCircle from "/images/icon-circle.svg";
 import iconCircleLarge from "/images/icon-circle-large.svg";
+import markerRed from "/images/marker-red.svg";
+import markerYellow from "/images/marker-yellow.svg";
 
 const ROWS = 6;
 const COLS = 7;
@@ -41,6 +43,7 @@ const Game: React.FC = () => {
   >([]);
   const [showMenuModal, setShowMenuModal] = useState<boolean>(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
 
   const dropPiece = (col: number) => {
     if (winner) return;
@@ -52,6 +55,7 @@ const Game: React.FC = () => {
         setBoard(newBoard);
         checkWinner(row, col);
         setCurrentPlayer(currentPlayer === "red" ? "yellow" : "red");
+
         setTimer(30); // Reset timer
 
         return;
@@ -208,6 +212,14 @@ const Game: React.FC = () => {
     setWindowWidth(window.innerWidth);
   };
 
+  const handleColumnHover = (colIndex: number) => {
+    setHoveredColumn(colIndex);
+  };
+
+  const handleColumnLeave = () => {
+    setHoveredColumn(null);
+  };
+
   useEffect(() => {
     // Start the timer when the component mounts and modal is closed
     const timerId = setInterval(() => {
@@ -245,7 +257,7 @@ const Game: React.FC = () => {
   }, []);
 
   return (
-    <main className="relative flex w-full max-w-[335px] flex-col gap-[3.125rem] pb-24 pt-[3.125rem] md:max-w-[632px] md:gap-8 md:pb-[5.25rem] md:pt-[1.875rem]">
+    <main className="relative flex w-full max-w-[335px] flex-col gap-[3.125rem] pb-24 pt-[3.125rem] md:max-w-[632px] md:gap-8 md:pb-[5.25rem] md:pt-[1.875rem] xl:gap-[3.125rem] xl:pb-[3.125rem] xl:pt-[3.375rem]">
       <div className="gap flex w-full items-center justify-between">
         <button
           type="button"
@@ -254,7 +266,7 @@ const Game: React.FC = () => {
         >
           Menu
         </button>
-        <Link to="/" className="h-10 w-10">
+        <Link to="/" className="h-10 w-10 md:h-[3.25rem] md:w-[3.25rem]">
           <img className="h-full w-full" src={logo} alt="connect four logo" />
         </Link>
         <button
@@ -265,17 +277,17 @@ const Game: React.FC = () => {
           Restart
         </button>
       </div>
-      <div className="flex w-full flex-col gap-10 md:gap-8">
+      <div className="flex w-full flex-col gap-10 md:gap-8 xl:relative xl:gap-0">
         <div className="flex w-full items-center justify-center gap-5 md:gap-10">
           {/* Player 1 */}
-          <div className="relative flex max-w-[148px] flex-1 flex-col items-center gap-px rounded-[20px] border-[3px] border-solid border-black bg-white py-[0.625rem] shadow-[0_10px_0px_0px_rgba(0,0,0,1)] md:max-w-[272px] md:flex-row md:justify-between md:py-[0.875rem] md:pl-11 md:pr-5">
+          <div className="relative flex max-w-[148px] flex-1 flex-col items-center gap-px rounded-[20px] border-[3px] border-solid border-black bg-white py-[0.625rem] shadow-[0_10px_0px_0px_rgba(0,0,0,1)] md:max-w-[272px] md:flex-row md:justify-between md:py-[0.875rem] md:pl-11 md:pr-5 xl:absolute xl:-left-[13rem] xl:top-[calc(50%-160px)] xl:max-w-[148px] xl:flex-col xl:items-center xl:px-[1.688rem] xl:pb-4 xl:pt-10">
             <span className="text-base font-bold uppercase leading-5 tracking-normal text-black md:text-[1.25rem] md:leading-[1.594rem]">
               Player 1
             </span>
             <span className="text-[2rem] font-bold leading-10 tracking-normal text-black md:text-[3.5rem] md:leading-[4.5rem]">
               {scores.red}
             </span>
-            <div className="absolute -left-[27px] h-[3.688rem] w-[3.375rem]">
+            <div className="absolute -left-[27px] h-[3.688rem] w-[3.375rem] xl:-top-[29.5px] xl:left-[calc(50%-26px)]">
               <img
                 className="h-full w-full"
                 src={playerOne}
@@ -284,14 +296,14 @@ const Game: React.FC = () => {
             </div>
           </div>
           {/* Player 2 */}
-          <div className="relative flex max-w-[148px] flex-1 flex-col items-center gap-px rounded-[20px] border-[3px] border-solid border-black bg-white py-[0.625rem] shadow-[0_10px_0px_0px_rgba(0,0,0,1)] md:max-w-[272px] md:flex-row-reverse md:justify-between md:py-[0.875rem] md:pl-5 md:pr-11">
+          <div className="relative flex max-w-[148px] flex-1 flex-col items-center gap-px rounded-[20px] border-[3px] border-solid border-black bg-white py-[0.625rem] shadow-[0_10px_0px_0px_rgba(0,0,0,1)] md:max-w-[272px] md:flex-row-reverse md:justify-between md:py-[0.875rem] md:pl-5 md:pr-11 xl:absolute xl:-right-[13rem] xl:top-[calc(50%-160px)] xl:max-w-[148px] xl:flex-col xl:items-center xl:px-[1.688rem] xl:pb-4 xl:pt-10">
             <span className="text-base font-bold uppercase leading-5 tracking-normal text-black md:text-[1.25rem] md:leading-[1.594rem]">
               Player 2
             </span>
             <span className="text-[2rem] font-bold leading-10 tracking-normal text-black md:text-[3.5rem] md:leading-[4.5rem]">
               {scores.yellow}
             </span>
-            <div className="absolute -right-[27px] h-[3.688rem] w-[3.375rem]">
+            <div className="absolute -right-[27px] h-[3.688rem] w-[3.375rem] xl:-top-[29.5px] xl:right-[calc(50%-26px)]">
               <img
                 className="h-full w-full"
                 src={playerTwo}
@@ -326,10 +338,10 @@ const Game: React.FC = () => {
                   return (
                     <div
                       key={`${rowIndex}-${colIndex}`}
-                      className={`flex w-full cursor-pointer flex-col justify-between ${
-                        isWinningCell ? "winning-cell" : ""
-                      }`}
+                      className="flex w-full cursor-pointer flex-col justify-between"
                       onClick={() => dropPiece(colIndex)}
+                      onMouseEnter={() => handleColumnHover(colIndex)}
+                      onMouseLeave={() => handleColumnLeave()}
                     >
                       <div className="relative flex h-10 w-10 items-center justify-center md:h-[4.5rem] md:w-[4.5rem]">
                         {cell === "red" && (
@@ -369,7 +381,36 @@ const Game: React.FC = () => {
                 }),
               )}
             </div>
-            <div className="pointer-events-none absolute left-0 top-0 z-30 h-[19.375rem] w-full">
+            {/* Marker for column hover */}
+            <div className="pointer-events-none absolute left-0 top-0 z-20 hidden h-full w-full grid-cols-7 gap-[0.375rem] px-2 pb-7 pt-2 md:gap-4 md:px-4 md:pb-14 md:pt-4 xl:grid">
+              {Array.from({ length: 7 }).map((_, colIndex) => (
+                <div
+                  key={`${colIndex}`}
+                  className="left-0 top-0 flex h-full w-full justify-center"
+                  onMouseEnter={() => handleColumnHover(colIndex)}
+                  onMouseLeave={() => handleColumnLeave()}
+                >
+                  <div
+                    className={`absolute -top-10 h-[2.375rem] w-9 transition-opacity duration-75 ${hoveredColumn === colIndex ? "opacity-100" : "opacity-0"}`}
+                  >
+                    <img
+                      className="h-full w-full"
+                      src={
+                        (currentPlayer === "red" && !winner) ||
+                        (winner && currentPlayer === "yellow")
+                          ? markerRed
+                          : (currentPlayer === "yellow" && !winner) ||
+                              (winner && currentPlayer === "red")
+                            ? markerYellow
+                            : ""
+                      }
+                      alt="marker"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="pointer-events-none absolute left-0 top-0 z-30 h-[19.375rem] w-full md:h-[36.5rem]">
               <img
                 src={
                   windowWidth < 768
@@ -428,7 +469,7 @@ const Game: React.FC = () => {
           )}
           {/* background pattern */}
           <div
-            className={`absolute -left-5 top-[36rem] min-h-[236px] w-[calc(100%+40px)] rounded-t-[60px] transition-colors delay-500 duration-500 md:-left-[4.25rem] md:top-[49.375rem] md:min-h-[234px] md:w-[calc(100%+136px)] ${winner === "red" ? "bg-red" : winner === "yellow" ? "bg-yellow" : "bg-dark-purple"}`}
+            className={`absolute -left-5 top-[36rem] min-h-[236px] w-[calc(100%+40px)] rounded-t-[60px] transition-colors delay-500 duration-500 md:-left-[4.25rem] md:top-[49.375rem] md:min-h-[234px] md:w-[calc(100%+136px)] xl:-left-[20.25rem] xl:top-[34rem] xl:min-h-[200px] xl:w-[calc(100%+648px)] ${winner === "red" ? "bg-red" : winner === "yellow" ? "bg-yellow" : "bg-dark-purple"}`}
           ></div>
         </div>
       </div>
